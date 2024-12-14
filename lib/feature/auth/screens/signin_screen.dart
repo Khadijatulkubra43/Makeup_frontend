@@ -6,7 +6,9 @@ import 'package:flutter_application_1/feature/auth/services/api_service.dart';
 import 'package:flutter_application_1/widgets/custom_scaffold.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+  final String username;
+  final String password;
+  const SignInScreen({super.key, this.username = '', this.password = ''});
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -16,6 +18,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final _formSignInKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
   bool _ispasswordvisible = false;
   bool _isLoading = false;
   bool rememberPassword = true;
@@ -45,6 +48,15 @@ class _SignInScreenState extends State<SignInScreen> {
     }
     setState(() {
       _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _usernameController.text = widget.username;
+      _passwordController.text = widget.password;
     });
   }
 

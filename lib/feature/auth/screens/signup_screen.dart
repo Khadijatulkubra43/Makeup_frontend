@@ -38,12 +38,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
     if (success) {
-      // TODO: Pass data
       // Navigate to SignInScreen after processing data
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const SignInScreen(),
+          builder: (context) => SignInScreen(
+            username: _usernameController.text,
+            password: _password1Controller.text,
+          ),
         ),
       );
     } else {
