@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/feature/auth/services/api_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CameraPage extends StatefulWidget {
@@ -169,10 +170,25 @@ class _CameraPageState extends State<CameraPage> {
   }
 }
 
+// ignore: must_be_immutable
 class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
+  String _imgUrl = '';
 
-  const DisplayPictureScreen({super.key, required this.imagePath});
+  DisplayPictureScreen({super.key, required this.imagePath});
+
+  void pickAndUploadFile(String imgPath) async {
+    File file = File(imgPath);
+    // Call the upload function
+    Map<String, dynamic>? response = await ApiService.uploadFile(file);
+
+    if (response != null) {
+      print("File uploaded successfully: ${response['url']}");
+      _imgUrl = response['url'];
+    } else {
+      print("File upload failed");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,6 +198,69 @@ class DisplayPictureScreen extends StatelessWidget {
       ),
       body: Center(
         child: Image.file(File(imagePath)),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(15),
+        child: ElevatedButton(
+            onPressed: () {
+              pickAndUploadFile(imagePath);
+              if (_imgUrl != '') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ImageScreen(
+                      imageUrl: _imgUrl,
+                    ),
+                  ),
+                );
+              }
+            },
+            child: const Text("Apply Make-up")),
+      ),
+    );
+  }
+}
+
+class ImageScreen extends StatelessWidget {
+  final String imageUrl;
+
+  // Constructor to receive the image URL
+  const ImageScreen({super.key, required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Result Image'),
+        backgroundColor: Colors.blueAccent,
+      ),
+      body: Center(
+        child: imageUrl.isNotEmpty
+            ? Image.network(
+                imageUrl,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child; // Image is fully loaded
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              (loadingProgress.expectedTotalBytes ?? 1)
+                          : null,
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return const Text(
+                    'Failed to load image',
+                    style: TextStyle(color: Colors.red),
+                  );
+                },
+                fit: BoxFit.contain,
+              )
+            : const Text('No image URL provided'),
       ),
     );
   }
