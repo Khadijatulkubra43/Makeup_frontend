@@ -17,6 +17,7 @@ class _CameraPageState extends State<CameraPage> {
   bool _isInitialized = false;
   bool _isFrontCamera = true;
   final ImagePicker _picker = ImagePicker();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey = GlobalKey();
 
   @override
   void initState() {
@@ -50,8 +51,8 @@ class _CameraPageState extends State<CameraPage> {
       }
     } catch (e) {
       // Handle initialization error
-      //TODO: put SnackBar here.
-      // print('Error initializing camera: $e');
+      _scaffoldMessengerKey.currentState
+          ?.showSnackBar(const SnackBar(content: Text("ERROR Happend")));
     }
   }
 
@@ -77,7 +78,8 @@ class _CameraPageState extends State<CameraPage> {
     } catch (e) {
       // Handle camera switching error
       // print('Error toggling camera: $e');
-      //TODO: put SnackBar here.
+      _scaffoldMessengerKey.currentState?.showSnackBar(
+          const SnackBar(content: Text("Error toggling camera")));
     }
   }
 
@@ -94,8 +96,8 @@ class _CameraPageState extends State<CameraPage> {
       }
     } catch (e) {
       // Handle picture taking error
-      // print('Error taking picture: $e');
-      //TODO: put SnackBar here.
+      _scaffoldMessengerKey.currentState?.showSnackBar(
+          const SnackBar(content: Text("Error: taking picture")));
     }
   }
 
@@ -112,8 +114,8 @@ class _CameraPageState extends State<CameraPage> {
       }
     } catch (e) {
       // Handle image picking error
-      // print('Error picking image: $e');
-      //TODO: put SnackBar here.
+      _scaffoldMessengerKey.currentState
+          ?.showSnackBar(const SnackBar(content: Text("Error picking camera")));
     }
   }
 
@@ -124,6 +126,7 @@ class _CameraPageState extends State<CameraPage> {
     }
 
     return Scaffold(
+      key: _scaffoldMessengerKey,
       appBar: AppBar(
         title: const Text('Camera'),
         actions: [
