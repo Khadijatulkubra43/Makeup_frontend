@@ -173,6 +173,7 @@ class _CameraPageState extends State<CameraPage> {
 // ignore: must_be_immutable
 class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey();
   String _imgUrl = '';
 
   DisplayPictureScreen({super.key, required this.imagePath});
@@ -183,16 +184,17 @@ class DisplayPictureScreen extends StatelessWidget {
     Map<String, dynamic>? response = await ApiService.uploadFile(file);
 
     if (response != null) {
-      print("File uploaded successfully: ${response['url']}");
       _imgUrl = response['url'];
     } else {
-      print("File upload failed");
+      _scaffoldKey.currentState
+          ?.showSnackBar(const SnackBar(content: Text("File Upload Failed")));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Display Picture'),
       ),

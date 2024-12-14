@@ -125,14 +125,11 @@ class ApiService {
         // Read the response body
         final responseBody = await response.stream.bytesToString();
         final Map<String, dynamic> data = json.decode(responseBody);
-        print('Upload successful: $data');
         return data; // Return the response data
       } else {
-        print('Failed to upload file: ${response.statusCode}');
         return null; // Return null on failure
       }
     } catch (e) {
-      print('Error while uploading file: $e');
       return null;
     }
   }
