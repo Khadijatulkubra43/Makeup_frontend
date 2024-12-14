@@ -33,7 +33,7 @@ class _SignInScreenState extends State<SignInScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => NavigationMenu(),
+          builder: (context) => const NavigationMenu(),
         ),
       );
     } else {
@@ -91,7 +91,15 @@ class _SignInScreenState extends State<SignInScreen> {
                         controller: _usernameController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Username';
+                            return 'Please enter a username';
+                          }
+                          if (value.length < 3 || value.length > 16) {
+                            return 'Username must be between 3 and 16 characters.';
+                          }
+                          final RegExp usernameRegex =
+                              RegExp(r'^[a-zA-Z0-9_]+$');
+                          if (!usernameRegex.hasMatch(value)) {
+                            return 'Username can only contain letters, numbers, and underscores.';
                           }
                           return null;
                         },
@@ -123,10 +131,28 @@ class _SignInScreenState extends State<SignInScreen> {
                         obscureText: !_ispasswordvisible,
                         obscuringCharacter: '*',
                         validator: (value) {
+                          // Check for null or empty input
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Password';
+                            return 'Please enter a password';
                           }
-                          return null;
+
+                          // Length validation
+                          if (value.length < 8) {
+                            return 'Password must be at least 8 characters long';
+                          }
+
+                          // Uppercase letter check
+                          if (!RegExp(r'^(?=.*[A-Z])').hasMatch(value)) {
+                            return 'Password must contain at least 1 uppercase letter';
+                          }
+
+                          // Special character check
+                          if (!RegExp(r'^(?=.*[!@#\$%^&*(),.?":{}|<>])')
+                              .hasMatch(value)) {
+                            return 'Password must contain at least 1 special character';
+                          }
+
+                          return null; // Return null if the password is valid
                         },
                         decoration: InputDecoration(
                           label: const Text('Password'),
@@ -219,7 +245,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           },
                           child: (!_isLoading)
                               ? const Text('Sign in')
-                              : SizedBox(
+                              : const SizedBox(
                                   height: 20,
                                   width: 20,
                                   child: CircularProgressIndicator(
