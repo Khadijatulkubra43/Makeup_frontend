@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 // const String baseUrl = 'https://zohaibanwer.pythonanywhere.com/api/';
-const String baseUrl = 'http://127.0.0.1:8000/api/';   // FOR DEBUGGING
+const String baseUrl = 'http://192.168.100.130:8000/api/'; // FOR DEBUGGING
 
 class ApiService {
   static Future<bool> login(String username, String password) async {
@@ -88,5 +88,4 @@ class ApiService {
     );
     return response.statusCode == 204;
   }
-
 }
