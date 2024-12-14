@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/navigation/navigation_menu.dart';
 import 'package:flutter_application_1/feature/auth/screens/signup_screen.dart';
 import 'package:flutter_application_1/core/theme/theme.dart';
+import 'package:flutter_application_1/feature/auth/services/api_service.dart';
 import 'package:flutter_application_1/widgets/custom_scaffold.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -13,7 +14,40 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final _formSignInKey = GlobalKey<FormState>();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _ispasswordvisible = false;
+  bool _isLoading = false;
   bool rememberPassword = true;
+
+  Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+    });
+    bool success = await ApiService.login(
+        _usernameController.text, _passwordController.text);
+    if (!mounted) {
+      return;
+    }
+    if (success) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => NavigationMenu(),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Failed to login"),
+        ),
+      );
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -54,15 +88,16 @@ class _SignInScreenState extends State<SignInScreen> {
                         height: 40.0,
                       ),
                       TextFormField(
+                        controller: _usernameController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Email';
+                            return 'Please enter Username';
                           }
                           return null;
                         },
                         decoration: InputDecoration(
-                          label: const Text('Email'),
-                          hintText: 'Enter Email',
+                          label: const Text('Username'),
+                          hintText: 'Enter Username',
                           hintStyle: const TextStyle(
                             color: Colors.black26,
                           ),
@@ -84,7 +119,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         height: 25.0,
                       ),
                       TextFormField(
-                        obscureText: true,
+                        controller: _passwordController,
+                        obscureText: !_ispasswordvisible,
                         obscuringCharacter: '*',
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -109,6 +145,16 @@ class _SignInScreenState extends State<SignInScreen> {
                               color: Colors.black12, // Default border color
                             ),
                             borderRadius: BorderRadius.circular(10),
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _ispasswordvisible = !_ispasswordvisible;
+                              });
+                            },
+                            icon: Icon(_ispasswordvisible
+                                ? Icons.visibility
+                                : Icons.visibility_off),
                           ),
                         ),
                       ),
@@ -162,12 +208,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   content: Text('Processing Data'),
                                 ),
                               );
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const NavigationMenu(),
-                                ),
-                              );
+                              _login();
                             } else if (!rememberPassword) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -176,7 +217,15 @@ class _SignInScreenState extends State<SignInScreen> {
                               );
                             }
                           },
-                          child: const Text('Sign in'),
+                          child: (!_isLoading)
+                              ? const Text('Sign in')
+                              : SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                ),
                         ),
                       ),
                       const SizedBox(
