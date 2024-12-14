@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/signin_screen.dart';
-import 'package:flutter_application_1/theme/theme.dart';
+// import 'package:flutter_application_1/theme/theme.dart';
 import 'package:flutter_application_1/widgets/custom_scaffold.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -49,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       // get started text
-                      Text(
+                      const Text(
                         'Get Started',
                         style: TextStyle(
                           fontSize: 30.0,
@@ -169,7 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     agreePersonalData = value!;
                                   });
                                 },
-                                activeColor: Color.fromARGB(255, 243, 108, 227),
+                                activeColor: const Color.fromARGB(255, 243, 108, 227),
                               ),
                               const Text(
                                 'I agree to the processing of ',
@@ -179,7 +179,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ],
                           ),
-                          Text(
+                          const Text(
                             'Personal data',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -330,7 +330,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               );
                             },
-                            child: Text(
+                            child: const Text(
                               'Sign in',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,

@@ -1,6 +1,6 @@
 import 'package:flutter_application_1/widgets/forward_button.dart';
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
+// import 'package:ionicons/ionicons.dart';
 
 class SettingItem extends StatelessWidget {
   final String title;

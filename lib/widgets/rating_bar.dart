@@ -10,7 +10,7 @@ class RatingBar extends StatefulWidget {
   final Color selectColor;
   final ValueChanged<String> onRatingUpdate;
 
-  RatingBar({
+  const RatingBar({super.key, 
     this.maxRating = 10.0,
     this.count = 5,
     this.value = 10.0,
@@ -22,7 +22,7 @@ class RatingBar extends StatefulWidget {
   });
 
   @override
-  _RatingBarState createState() => _RatingBarState();
+  State<RatingBar> createState() => _RatingBarState();
 }
 
 class _RatingBarState extends State<RatingBar> {
@@ -137,11 +137,8 @@ class _RatingBarState extends State<RatingBar> {
   }
 
   double star() {
-    if (value != null) {
-      return (value % (widget.maxRating / widget.count)) /
-          (widget.maxRating / widget.count);
-    }
-    return 0;
+    return (value % (widget.maxRating / widget.count)) /
+        (widget.maxRating / widget.count);
   }
 }
 

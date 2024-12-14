@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants.dart';
-import 'package:flutter_application_1/screens/Home/widget/popular_cosmetics_listview.dart';
+// import 'package:flutter_application_1/screens/Home/widget/popular_cosmetics_listview.dart';
 
 class PopularCosmetics extends StatelessWidget {
   const PopularCosmetics({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
         color: mDarkBackgroundColor,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(24),
           bottomRight: Radius.circular(24),
         ),
@@ -23,8 +23,8 @@ class PopularCosmetics extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            child: Text(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            child: const Text(
               'Popular Cosmetics',
               style: TextStyle(
                   color: Colors.white,

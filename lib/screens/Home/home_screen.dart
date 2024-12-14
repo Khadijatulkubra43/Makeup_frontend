@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -10,24 +12,26 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
-      home: MakeupRecommendationScreen(),
+      home: const MakeupRecommendationScreen(),
     );
   }
 }
 
 class MakeupRecommendationScreen extends StatelessWidget {
+  const MakeupRecommendationScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
-          Color(0xFFF8D6E3), // Light pink/purple mix background color
+          const Color(0xFFF8D6E3), // Light pink/purple mix background color
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'WELCOME TO THE',
                 style: TextStyle(
                   fontSize: 20,
@@ -35,7 +39,7 @@ class MakeupRecommendationScreen extends StatelessWidget {
                   letterSpacing: 1.5,
                 ),
               ),
-              Text(
+              const Text(
                 'AI Glam Fusion',
                 style: TextStyle(
                   fontSize: 30,
@@ -43,12 +47,12 @@ class MakeupRecommendationScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Center Image
               Container(
                 width: 120,
                 height: 120,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white,
                   boxShadow: [
@@ -66,7 +70,7 @@ class MakeupRecommendationScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               // Star Rating
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -76,9 +80,9 @@ class MakeupRecommendationScreen extends StatelessWidget {
                       Icon(Icons.star, color: Colors.yellow[700], size: 18),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Instruction Text
-              Text(
+              const Text(
                 'Upload or capture an image to get makeup recommendations.',
                 style: TextStyle(
                   fontSize: 14,
@@ -86,21 +90,21 @@ class MakeupRecommendationScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Get Recommendations Button
               ElevatedButton.icon(
                 onPressed: () {},
-                icon: Icon(Icons.check),
-                label: Text("Get Recommendations"),
+                icon: const Icon(Icons.check),
+                label: const Text("Get Recommendations"),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.pinkAccent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Recommended Images List
               Expanded(
                 child: ListView(
@@ -124,7 +128,7 @@ class MakeupRecommendationScreen extends StatelessWidget {
                               radius: 30,
                               backgroundImage: AssetImage(images[index]),
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: List.generate(
@@ -145,7 +149,7 @@ class MakeupRecommendationScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // About Us Paragraph
               Container(
                 padding: const EdgeInsets.symmetric(
@@ -159,18 +163,18 @@ class MakeupRecommendationScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Bottom Icons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.facebook),
+                    icon: const Icon(Icons.facebook),
                     color: Colors.blue[900],
                     onPressed: () {},
                   ),
                   IconButton(
-                    icon: Icon(Icons.chat_bubble_outline),
+                    icon: const Icon(Icons.chat_bubble_outline),
                     color: Colors.grey[700],
                     onPressed: () {},
                   ),

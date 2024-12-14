@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-Color mBackgroundColor = Color(0xFFFFFFFF);
+Color mBackgroundColor = const Color(0xFFFFFFFF);
 
-Color mCardBackgroundColor = Color(0xFFecebe7);
+Color mCardBackgroundColor = const Color(0xFFecebe7);
 
-Color mDarkBackgroundColor = Color(0xFF343434);
+Color mDarkBackgroundColor = const Color(0xFF343434);
 
-Color mPrimaryColor = Color(0xFFE8D1B2);
+Color mPrimaryColor = const Color(0xFFE8D1B2);
 
 const popularCosmeticsList = [
   {

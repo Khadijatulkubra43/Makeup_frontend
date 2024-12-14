@@ -3,8 +3,8 @@ import 'package:flutter_application_1/constants.dart';
 
 class MyActionbar extends StatelessWidget {
   const MyActionbar({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

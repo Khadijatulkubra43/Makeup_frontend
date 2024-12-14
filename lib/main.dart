@@ -5,8 +5,9 @@ import 'package:flutter_application_1/theme/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final cameras = await availableCameras();
-  final firstCamera = cameras.first;
+  await availableCameras();
+  // final cameras = await availableCameras();
+  // final firstCamera = cameras.first;
 
   runApp(const MyApp());
 }

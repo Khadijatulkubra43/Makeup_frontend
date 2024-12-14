@@ -4,8 +4,8 @@ import 'package:flutter_application_1/screens/detail/widget/my_actionbar.dart';
 
 class MyHeader extends StatelessWidget {
   const MyHeader({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +14,12 @@ class MyHeader extends StatelessWidget {
       height: 320,
       decoration: BoxDecoration(
         color: mCardBackgroundColor,
-        image: DecorationImage(
+        image: const DecorationImage(
           image: AssetImage('assets/images/product_full_detail.png'),
           fit: BoxFit.fitHeight,
         ),
       ),
-      child: MyActionbar(),
+      child: const MyActionbar(),
     );
   }
 }

@@ -4,16 +4,16 @@ import 'package:flutter_application_1/screens/detail/detail_screen.dart';
 
 class CosmeticsFull extends StatelessWidget {
   const CosmeticsFull({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 36),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
       child: Column(
         children: <Widget>[
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
@@ -33,20 +33,20 @@ class CosmeticsFull extends StatelessWidget {
           ListView.builder(
             itemCount: cosmeticsFullList.length,
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return DetailScreen();
+                      return const DetailScreen();
                     },
                   ),
                 );
               },
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(36),
                 ),

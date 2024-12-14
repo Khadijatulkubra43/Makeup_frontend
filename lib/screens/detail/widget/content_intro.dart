@@ -4,28 +4,28 @@ import 'package:flutter_application_1/widgets/rating_bar.dart';
 
 class ContentIntro extends StatelessWidget {
   const ContentIntro({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
       decoration: BoxDecoration(
         color: mDarkBackgroundColor,
         borderRadius: BorderRadius.circular(36),
       ),
       child: Column(
         children: <Widget>[
-          Text(
+          const Text(
             'Make up Beauty Products',
             style: TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
-          Text(
+          const Text(
             'Lorem Ipsum is simply dummy text of the printing and '
             'typesetting industry.Lorem Ipsum is simply dummy '
             'text of the printing and typesetting industry.Lorem '
@@ -37,27 +37,27 @@ class ContentIntro extends StatelessWidget {
             'typesetting industry.',
             style: TextStyle(height: 1.8, color: Colors.white54),
           ),
-          SizedBox(
+          const SizedBox(
             height: 24,
           ),
-          Text(
+          const Text(
             'Kiran Millwood Hargrave',
             style: TextStyle(
               color: Colors.white54,
               fontSize: 18,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
-          Text(
+          const Text(
             '13 July 2020',
             style: TextStyle(
               color: Colors.white54,
               fontSize: 18,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Row(
@@ -70,17 +70,17 @@ class ContentIntro extends StatelessWidget {
                 value: 4.8,
                 selectColor: mPrimaryColor,
               ),
-              Text(
+              const Text(
                 '4.8',
                 style: TextStyle(color: Colors.white54),
               ),
-              Text(
+              const Text(
                 '/5.0',
                 style: TextStyle(color: Colors.white),
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 24,
           ),
           Row(
@@ -95,7 +95,7 @@ class ContentIntro extends StatelessWidget {
                 ),
                 child: Image.asset('assets/images/share.png'),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 48,
               ),
               Container(
@@ -107,7 +107,7 @@ class ContentIntro extends StatelessWidget {
                 ),
                 child: Image.asset('assets/images/mark.png'),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 48,
               ),
               Container(

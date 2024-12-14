@@ -1,4 +1,3 @@
-//lib\screens\Camera\Camera_page.dart
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -9,7 +8,7 @@ class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
 
   @override
-  _CameraPageState createState() => _CameraPageState();
+  State<CameraPage> createState() => _CameraPageState();
 }
 
 class _CameraPageState extends State<CameraPage> {
@@ -51,7 +50,8 @@ class _CameraPageState extends State<CameraPage> {
       }
     } catch (e) {
       // Handle initialization error
-      print('Error initializing camera: $e');
+      //TODO: put SnackBar here.
+      // print('Error initializing camera: $e');
     }
   }
 
@@ -76,7 +76,8 @@ class _CameraPageState extends State<CameraPage> {
       }
     } catch (e) {
       // Handle camera switching error
-      print('Error toggling camera: $e');
+      // print('Error toggling camera: $e');
+      //TODO: put SnackBar here.
     }
   }
 
@@ -93,7 +94,8 @@ class _CameraPageState extends State<CameraPage> {
       }
     } catch (e) {
       // Handle picture taking error
-      print('Error taking picture: $e');
+      // print('Error taking picture: $e');
+      //TODO: put SnackBar here.
     }
   }
 
@@ -110,7 +112,8 @@ class _CameraPageState extends State<CameraPage> {
       }
     } catch (e) {
       // Handle image picking error
-      print('Error picking image: $e');
+      // print('Error picking image: $e');
+      //TODO: put SnackBar here.
     }
   }
 

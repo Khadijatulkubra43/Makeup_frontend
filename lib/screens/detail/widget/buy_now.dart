@@ -3,8 +3,8 @@ import 'package:flutter_application_1/constants.dart';
 
 class BuyNow extends StatelessWidget {
   const BuyNow({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,27 +13,27 @@ class BuyNow extends StatelessWidget {
       children: <Widget>[
         Container(
           height: 56,
-          padding: EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           decoration: BoxDecoration(
               color: mPrimaryColor, borderRadius: BorderRadius.circular(8)),
           child: Row(
             children: <Widget>[
-              Text(
+              const Text(
                 'try it',
                 style: TextStyle(
                   fontSize: 16,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 24,
               ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 decoration: BoxDecoration(
                   color: mDarkBackgroundColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Text(
+                child: const Text(
                   'Buy Now',
                   style: TextStyle(
                     color: Colors.white,
@@ -44,13 +44,13 @@ class BuyNow extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 24,
         ),
         Container(
           width: 56,
           height: 56,
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: Colors.black12,
             borderRadius: BorderRadius.circular(8),

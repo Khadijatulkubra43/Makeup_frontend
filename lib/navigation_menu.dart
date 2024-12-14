@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/Camera/Camera_page.dart';
+import 'package:flutter_application_1/screens/camera/camera_page.dart';
 import 'package:flutter_application_1/screens/Home/home_screen.dart';
 import 'package:flutter_application_1/screens/Setting/account_setting.dart';
 import 'package:flutter_application_1/screens/User/user_profile.dart';
@@ -70,9 +70,9 @@ class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
   final screens = [
-    MakeupRecommendationScreen(),
+    const MakeupRecommendationScreen(),
     const CameraPage(),
     const AccountScreen(),
-    UserProfile(),
+    const UserProfile(),
   ];
 }

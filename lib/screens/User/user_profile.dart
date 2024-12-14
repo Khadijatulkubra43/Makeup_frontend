@@ -8,6 +8,8 @@ const phone = "+923-------2"; // Not a real number :)
 const location = "Karachi, Pakistan";
 
 class UserProfile extends StatelessWidget {
+  const UserProfile({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,11 +18,11 @@ class UserProfile extends StatelessWidget {
         minimum: const EdgeInsets.only(top: 100),
         child: Column(
           children: <Widget>[
-            CircleAvatar(
+            const CircleAvatar(
               radius: 50,
               backgroundImage: AssetImage('assets/images/avatar.png'),
             ),
-            Text(
+            const Text(
               "Khadija Tul Kubra",
               style: TextStyle(
                 fontSize: 40.0,
@@ -39,7 +41,7 @@ class UserProfile extends StatelessWidget {
                 fontFamily: "Source Sans Pro",
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
               width: 200,
               child: Divider(

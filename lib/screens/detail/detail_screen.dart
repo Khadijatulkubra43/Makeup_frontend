@@ -4,10 +4,12 @@ import 'package:flutter_application_1/screens/detail/widget/content_intro.dart';
 import 'package:flutter_application_1/screens/detail/widget/my_header.dart';
 
 class DetailScreen extends StatelessWidget {
+  const DetailScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return const Scaffold(
+      body: SizedBox(
         height: double.infinity,
         child: Stack(
           children: <Widget>[
