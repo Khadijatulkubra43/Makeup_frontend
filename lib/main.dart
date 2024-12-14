@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/welcome_screen.dart';
-import 'package:flutter_application_1/theme/theme.dart';
+import 'package:flutter_application_1/feature/welcome/screens/welcome_screen.dart';
+import 'package:flutter_application_1/core/theme/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
