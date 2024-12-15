@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/feature/camera/camera_page.dart';
+import 'package:flutter_application_1/feature/camera/screens/camera_page.dart';
 import 'package:flutter_application_1/feature/home/screens/home_screen.dart';
 import 'package:flutter_application_1/feature/settings/screens/account_setting.dart';
 import 'package:flutter_application_1/feature/users/screens/user_profile.dart';

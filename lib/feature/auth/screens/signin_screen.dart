@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/navigation/navigation_menu.dart';
 import 'package:flutter_application_1/feature/auth/screens/signup_screen.dart';
 import 'package:flutter_application_1/core/theme/theme.dart';
-import 'package:flutter_application_1/feature/auth/services/api_service.dart';
+import 'package:flutter_application_1/core/services/api_service.dart';
 import 'package:flutter_application_1/widgets/custom_scaffold.dart';
 
 class SignInScreen extends StatefulWidget {
