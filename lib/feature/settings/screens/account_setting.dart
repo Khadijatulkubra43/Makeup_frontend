@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/core/services/api_service.dart';
 import 'package:flutter_application_1/feature/settings/screens/edit_screen.dart';
 import 'package:flutter_application_1/widgets/forward_button.dart';
 import 'package:flutter_application_1/widgets/setting_item.dart';
@@ -14,6 +15,31 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   bool isDarkMode = false;
+
+  String _fullname = 'Defaul User';
+  String _username = 'username.me';
+
+  Future<void> getUsername() async {
+    try {
+      dynamic userDetails = await ApiService.getUserName();
+      setState(() {
+        _fullname = "${userDetails["firstname"]} ${userDetails["lastname"]}";
+        _username = userDetails['username'];
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Failed to get user details"),
+        ),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUsername();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,20 +80,20 @@ class _AccountScreenState extends State<AccountScreen> {
                     Image.asset("assets/images/avatar.png",
                         width: 50, height: 50),
                     const SizedBox(width: 20),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Khadija tul kubra",
-                          style: TextStyle(
+                          _fullname,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
-                          "Developer",
-                          style: TextStyle(
+                          _username,
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Colors.grey,
                           ),
