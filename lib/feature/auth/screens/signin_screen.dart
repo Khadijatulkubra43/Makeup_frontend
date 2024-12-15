@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/navigation/navigation_menu.dart';
 import 'package:flutter_application_1/feature/auth/screens/signup_screen.dart';
@@ -9,7 +10,14 @@ import 'package:flutter_application_1/feature/auth/widgets/socialmedia_signin_ro
 class SignInScreen extends StatefulWidget {
   final String username;
   final String password;
-  const SignInScreen({super.key, this.username = '', this.password = ''});
+  const SignInScreen({
+    super.key,
+    this.username = '',
+    this.password = '',
+    required this.camera,
+  });
+
+  final CameraDescription camera;
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -41,7 +49,11 @@ class _SignInScreenState extends State<SignInScreen> {
 
     if (success) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const NavigationMenu()));
+          context,
+          MaterialPageRoute(
+              builder: (_) => NavigationMenu(
+                    camera: widget.camera,
+                  )));
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Failed to login")));
@@ -193,7 +205,8 @@ class _SignInScreenState extends State<SignInScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => const SignUpScreen()));
+                                    builder: (_) =>
+                                        SignUpScreen(camera: widget.camera)));
                           },
                           child: Text(
                             'Sign up',

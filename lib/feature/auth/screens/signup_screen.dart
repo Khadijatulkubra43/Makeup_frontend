@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/feature/auth/screens/signin_screen.dart';
 import 'package:flutter_application_1/core/services/api_service.dart';
@@ -5,7 +6,12 @@ import 'package:flutter_application_1/feature/auth/widgets/my_text_form_field.da
 import 'package:flutter_application_1/feature/auth/widgets/socialmedia_signin_row.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+  const SignUpScreen({
+    super.key,
+    required this.camera,
+  });
+
+  final CameraDescription camera;
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -46,6 +52,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           builder: (context) => SignInScreen(
             username: _usernameController.text,
             password: _password1Controller.text,
+            camera: widget.camera,
           ),
         ),
       );
@@ -299,7 +306,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (e) => const SignInScreen(),
+                                  builder: (e) => SignInScreen(
+                                    camera: widget.camera,
+                                  ),
                                 ),
                               );
                             },

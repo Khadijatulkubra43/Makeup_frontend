@@ -1,10 +1,16 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/feature/auth/screens/signup_screen.dart';
 import 'package:flutter_application_1/feature/auth/screens/signin_screen.dart';
 import 'package:flutter_application_1/feature/welcome/widgets/welcome_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+  const WelcomeScreen({
+    super.key,
+    required this.camera,
+  });
+
+  final CameraDescription camera;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +40,11 @@ class WelcomeScreen extends StatelessWidget {
                 Expanded(
                   child: WelcomeButton(
                     buttonText: 'Login',
-                    onTap: () => _navigateTo(context, const SignInScreen()),
+                    onTap: () => _navigateTo(
+                        context,
+                        SignInScreen(
+                          camera: camera,
+                        )),
                     color: Colors.transparent,
                     textColor: Colors.white,
                   ),
@@ -42,7 +52,8 @@ class WelcomeScreen extends StatelessWidget {
                 Expanded(
                   child: WelcomeButton(
                     buttonText: 'Sign up',
-                    onTap: () => _navigateTo(context, const SignUpScreen()),
+                    onTap: () =>
+                        _navigateTo(context, SignUpScreen(camera: camera)),
                     color: Colors.white,
                     textColor: const Color.fromARGB(255, 195, 56, 207),
                   ),
