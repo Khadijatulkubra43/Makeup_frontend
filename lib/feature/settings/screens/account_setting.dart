@@ -1,8 +1,8 @@
 import 'package:flutter_application_1/core/services/api_service.dart';
 import 'package:flutter_application_1/feature/settings/screens/edit_screen.dart';
-import 'package:flutter_application_1/widgets/forward_button.dart';
+import 'package:flutter_application_1/feature/settings/widgets/forward_button.dart';
 import 'package:flutter_application_1/feature/settings/widgets/setting_item.dart';
-import 'package:flutter_application_1/widgets/setting_switch.dart';
+import 'package:flutter_application_1/feature/settings/widgets/setting_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 

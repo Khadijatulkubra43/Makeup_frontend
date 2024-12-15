@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/constants.dart';
-import 'package:flutter_application_1/widgets/rating_bar.dart';
+import 'package:flutter_application_1/feature/detail/widget/rating_bar.dart';
 
 class ContentIntro extends StatelessWidget {
   const ContentIntro({

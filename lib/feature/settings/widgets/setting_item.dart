@@ -1,4 +1,4 @@
-import 'package:flutter_application_1/widgets/forward_button.dart';
+import 'package:flutter_application_1/feature/settings/widgets/forward_button.dart';
 import 'package:flutter/material.dart';
 // import 'package:ionicons/ionicons.dart';
 
