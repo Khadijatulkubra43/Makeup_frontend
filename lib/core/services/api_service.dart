@@ -42,6 +42,25 @@ class ApiService {
     }
   }
 
+  static Future<Map<String, dynamic>> getUserDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token == null) {
+      throw Exception("No authentication token found.");
+    }
+
+    dynamic response = await http.get(
+      Uri.parse('${baseUrl}user/details/'),
+      headers: {'Authorization': 'Token $token'},
+    );
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to get User Details: ${response.reasonPhrase}");
+    }
+  }
+
   static Future<bool> register(String username, String password1,
       String password2, String email, String firstName, String lastName) async {
     final response = await http.post(
