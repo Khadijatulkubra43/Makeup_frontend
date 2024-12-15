@@ -1,21 +1,22 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_application_1/widgets/forward_button.dart';
 import 'package:flutter/material.dart';
+// import 'package:ionicons/ionicons.dart';
 
-class SettingSwitch extends StatelessWidget {
+class SettingItem extends StatelessWidget {
   final String title;
   final Color bgColor;
   final Color iconColor;
   final IconData icon;
-  final bool value;
-  final Function(bool value) onTap;
-  const SettingSwitch({
+  final Function() onTap;
+  final String? value;
+  const SettingItem({
     super.key,
     required this.title,
     required this.bgColor,
     required this.iconColor,
     required this.icon,
-    required this.value,
     required this.onTap,
+    this.value,
   });
 
   @override
@@ -45,15 +46,19 @@ class SettingSwitch extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          Text(
-            value ? "On" : "Off",
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-            ),
-          ),
+          value != null
+              ? Text(
+                  value!,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                )
+              : const SizedBox(),
           const SizedBox(width: 20),
-          CupertinoSwitch(value: value, onChanged: onTap),
+          ForwardButton(
+            onTap: onTap,
+          ),
         ],
       ),
     );
