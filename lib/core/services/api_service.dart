@@ -71,7 +71,7 @@ class ApiService {
     }
 
     dynamic response = await http.post(
-      Uri.parse('${baseUrl}user/details/'),
+      Uri.parse('${baseUrl}user/update/'),
       headers: {'Authorization': 'Token $token'},
       body: json.encode({
         "first_name": firstName,
