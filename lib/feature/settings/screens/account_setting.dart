@@ -27,6 +27,9 @@ class _AccountScreenState extends State<AccountScreen> {
         _username = userDetails['username'];
       });
     } catch (e) {
+      if (!mounted) {
+        return;
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Failed to get user details"),

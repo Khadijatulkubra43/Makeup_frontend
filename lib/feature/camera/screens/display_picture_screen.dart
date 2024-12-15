@@ -3,11 +3,17 @@ import 'dart:io';
 import 'package:flutter_application_1/core/services/api_service.dart';
 import 'package:flutter_application_1/feature/camera/screens/image_screen.dart';
 
-class DisplayPictureScreen extends StatelessWidget {
+class DisplayPictureScreen extends StatefulWidget {
   final String imagePath;
-  final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey();
 
-  DisplayPictureScreen({super.key, required this.imagePath});
+  const DisplayPictureScreen({super.key, required this.imagePath});
+
+  @override
+  State<DisplayPictureScreen> createState() => _DisplayPictureScreenState();
+}
+
+class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey();
 
   Future<String> pickAndUploadFile(String imgPath) async {
     File file = File(imgPath);
@@ -31,15 +37,16 @@ class DisplayPictureScreen extends StatelessWidget {
         title: const Text('Display Picture'),
       ),
       body: Center(
-        child: Image.file(File(imagePath)),
+        child: Image.file(File(widget.imagePath)),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(15),
         child: ElevatedButton(
             onPressed: () async {
               // Await the Future to get the result
-              String imgUrl = await pickAndUploadFile(imagePath);
+              String imgUrl = await pickAndUploadFile(widget.imagePath);
               if (imgUrl != '') {
+                if (!context.mounted) return;
                 Navigator.push(
                   context,
                   MaterialPageRoute(

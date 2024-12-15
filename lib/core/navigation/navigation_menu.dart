@@ -14,7 +14,7 @@ class NavigationMenu extends StatefulWidget {
   final CameraDescription camera;
 
   @override
-  _NavigationMenuState createState() => _NavigationMenuState();
+  State<NavigationMenu> createState() => _NavigationMenuState();
 }
 
 class _NavigationMenuState extends State<NavigationMenu> {
