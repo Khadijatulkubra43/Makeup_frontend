@@ -12,7 +12,7 @@ class MyTextFormField extends StatefulWidget {
     super.key,
     required this.controller,
     required this.label,
-    required this.hint,
+    this.hint = '',
     this.obscureText = false,
     this.suffixIcon,
     this.validator,
