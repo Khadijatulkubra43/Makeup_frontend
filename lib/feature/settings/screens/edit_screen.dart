@@ -1,3 +1,5 @@
+import 'package:flutter_application_1/core/services/api_service.dart';
+import 'package:flutter_application_1/feature/settings/widgets/gender_selector.dart';
 import 'package:flutter_application_1/widgets/edit_item.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
@@ -10,7 +12,49 @@ class EditAccountScreen extends StatefulWidget {
 }
 
 class _EditAccountScreenState extends State<EditAccountScreen> {
-  String gender = "man";
+  bool _isEditEnabled = false;
+
+  final _firstnameController = TextEditingController();
+  final _lastnameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _ageController = TextEditingController();
+  final _genderController = TextEditingController();
+  String _gender = "M";
+
+  Future<void> getUserDetails() async {
+    try {
+      dynamic userDetails = await ApiService.getUserDetails();
+      setState(() {
+        _firstnameController.text = userDetails["first_name"];
+        _lastnameController.text = userDetails["last_name"];
+        _emailController.text = userDetails["email"];
+        _ageController.text = "${userDetails['age']}";
+        _genderController.text = userDetails['gender'];
+      });
+    } catch (e) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Failed to get user details"),
+        ),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _firstnameController.text = 'n\\a';
+    _lastnameController.text = 'n\\a';
+    _emailController.text = 'n\\a';
+    _ageController.text = '0';
+    _genderController.text = 'M';
+
+    getUserDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +71,11 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _isEditEnabled = !_isEditEnabled; // Toggle on click for now
+                });
+              },
               style: IconButton.styleFrom(
                 backgroundColor: Colors.lightBlueAccent,
                 shape: RoundedRectangleBorder(
@@ -36,7 +84,9 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                 fixedSize: const Size(60, 50),
                 elevation: 3,
               ),
-              icon: const Icon(Ionicons.checkmark, color: Colors.white),
+              icon: (_isEditEnabled == false)
+                  ? const Icon(Icons.edit, color: Colors.white)
+                  : const Icon(Ionicons.checkmark, color: Colors.white),
             ),
           ),
         ],
@@ -64,73 +114,102 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                       height: 100,
                       width: 100,
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.lightBlueAccent,
-                      ),
-                      child: const Text("Upload Image"),
-                    )
+                    (_isEditEnabled)
+                        ? TextButton(
+                            onPressed: () {},
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.lightBlueAccent,
+                            ),
+                            child: const Text("Upload Image"),
+                          )
+                        : const SizedBox(
+                            height: 5,
+                          ),
                   ],
                 ),
               ),
-              const EditItem(
-                title: "Name",
-                widget: TextField(),
+              EditItem(
+                title: "First Name",
+                widget: TextFormField(
+                  controller: _firstnameController,
+                  enabled: _isEditEnabled,
+                ),
+              ),
+              const SizedBox(height: 40),
+              EditItem(
+                title: "Last Name",
+                widget: TextFormField(
+                  controller: _lastnameController,
+                  enabled: _isEditEnabled,
+                ),
               ),
               const SizedBox(height: 40),
               EditItem(
                 title: "Gender",
-                widget: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          gender = "man";
-                        });
-                      },
-                      style: IconButton.styleFrom(
-                        backgroundColor: gender == "man"
-                            ? Colors.deepPurple
-                            : Colors.grey.shade200,
-                        fixedSize: const Size(50, 50),
-                      ),
-                      icon: Icon(
-                        Ionicons.male,
-                        color: gender == "man" ? Colors.white : Colors.black,
-                        size: 18,
-                      ),
+                widget: GenderSelector(
+                    controller: _genderController,
+                    isEnabled:
+                        _isEditEnabled // Change to false to disable editing
                     ),
-                    const SizedBox(width: 20),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          gender = "woman";
-                        });
-                      },
-                      style: IconButton.styleFrom(
-                        backgroundColor: gender == "woman"
-                            ? Colors.deepPurple
-                            : Colors.grey.shade200,
-                        fixedSize: const Size(50, 50),
-                      ),
-                      icon: Icon(
-                        Ionicons.female,
-                        color: gender == "woman" ? Colors.white : Colors.black,
-                        size: 18,
-                      ),
-                    )
-                  ],
-                ),
               ),
+              // EditItem(
+              //   title: "Gender",
+              //   widget: Row(
+              //     children: [
+              //       IconButton(
+              //         onPressed: () {
+              //           setState(() {
+              //             _gender = "M";
+              //           });
+              //         },
+              //         style: IconButton.styleFrom(
+              //           backgroundColor: _gender == "M"
+              //               ? Colors.deepPurple
+              //               : Colors.grey.shade200,
+              //           fixedSize: const Size(50, 50),
+              //         ),
+              //         icon: Icon(
+              //           Ionicons.male,
+              //           color: _gender == "M" ? Colors.white : Colors.black,
+              //           size: 18,
+              //         ),
+              //       ),
+              //       const SizedBox(width: 20),
+              //       IconButton(
+              //         onPressed: () {
+              //           setState(() {
+              //             _gender = "W";
+              //           });
+              //         },
+              //         style: IconButton.styleFrom(
+              //           backgroundColor: _gender == "W"
+              //               ? Colors.deepPurple
+              //               : Colors.grey.shade200,
+              //           fixedSize: const Size(50, 50),
+              //         ),
+              //         icon: Icon(
+              //           Ionicons.female,
+              //           color: _gender == "W" ? Colors.white : Colors.black,
+              //           size: 18,
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
               const SizedBox(height: 40),
-              const EditItem(
-                widget: TextField(),
+              EditItem(
+                widget: TextFormField(
+                  controller: _ageController,
+                  enabled: _isEditEnabled,
+                ),
                 title: "Age",
               ),
               const SizedBox(height: 40),
-              const EditItem(
-                widget: TextField(),
+              EditItem(
+                widget: TextFormField(
+                  controller: _emailController,
+                  enabled: _isEditEnabled,
+                ),
                 title: "Email",
               ),
             ],
