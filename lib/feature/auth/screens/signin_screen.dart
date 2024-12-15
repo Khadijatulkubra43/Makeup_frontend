@@ -3,7 +3,8 @@ import 'package:flutter_application_1/core/navigation/navigation_menu.dart';
 import 'package:flutter_application_1/feature/auth/screens/signup_screen.dart';
 import 'package:flutter_application_1/core/theme/theme.dart';
 import 'package:flutter_application_1/core/services/api_service.dart';
-import 'package:flutter_application_1/widgets/custom_scaffold.dart';
+import 'package:flutter_application_1/feature/auth/widgets/my_text_form_field.dart';
+import 'package:flutter_application_1/feature/auth/widgets/socialmedia_signin_row.dart';
 
 class SignInScreen extends StatefulWidget {
   final String username;
@@ -15,334 +16,203 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final _formSignInKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool _ispasswordvisible = false;
+  bool _isPasswordVisible = false;
   bool _isLoading = false;
   bool rememberPassword = true;
-
-  Future<void> _login() async {
-    setState(() {
-      _isLoading = true;
-    });
-    bool success = await ApiService.login(
-        _usernameController.text, _passwordController.text);
-    if (!mounted) {
-      return;
-    }
-    if (success) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const NavigationMenu(),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Failed to login"),
-        ),
-      );
-    }
-    setState(() {
-      _isLoading = false;
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _usernameController.text = widget.username;
-      _passwordController.text = widget.password;
-    });
+    _usernameController.text = widget.username;
+    _passwordController.text = widget.password;
+  }
+
+  Future<void> _login() async {
+    setState(() => _isLoading = true);
+    bool success = await ApiService.login(
+        _usernameController.text, _passwordController.text);
+
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+
+    if (success) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const NavigationMenu()));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Failed to login")));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      child: Column(
-        children: [
-          const Expanded(
-            flex: 1,
-            child: SizedBox(
-              height: 10,
-            ),
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/bg1.png"),
+            fit: BoxFit.cover,
           ),
-          Expanded(
-            flex: 7,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 150),
+          child: SingleChildScrollView(
             child: Container(
-              padding: const EdgeInsets.fromLTRB(25.0, 50.0, 25.0, 20.0),
-              decoration: const BoxDecoration(
+              height: 1080,
+              margin: const EdgeInsets.all(2.0),
+              padding: const EdgeInsets.all(20.0),
+              decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40.0),
-                  topRight: Radius.circular(40.0),
-                ),
+                borderRadius: BorderRadius.circular(40.0),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 8.0,
+                    offset: Offset(0, 4),
+                  ),
+                ],
               ),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formSignInKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Welcome back',
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 25, bottom: 30),
+                      child: Text(
+                        'Welcome Back',
                         style: TextStyle(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.w900,
-                          color: lightColorScheme.primary,
-                        ),
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.w900,
+                            color: lightColorScheme.primary),
                       ),
-                      const SizedBox(
-                        height: 40.0,
-                      ),
-                      TextFormField(
-                        controller: _usernameController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a username';
-                          }
-                          return null;
+                    ),
+                    // Username Field
+                    MyTextFormField(
+                      controller: _usernameController,
+                      label: 'Username',
+                      hint: 'Enter Username',
+                      validator: (value) =>
+                          value!.isEmpty ? 'Please enter a username' : null,
+                    ),
+                    const SizedBox(height: 15.0),
+
+                    // Password Field
+                    MyTextFormField(
+                      controller: _passwordController,
+                      label: 'Password',
+                      hint: 'Enter Password',
+                      obscureText: !_isPasswordVisible,
+                      suffixIcon: IconButton(
+                        icon: Icon(_isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: () {
+                          setState(() {
+                            _isPasswordVisible = !_isPasswordVisible;
+                          });
                         },
-                        decoration: InputDecoration(
-                          label: const Text('Username'),
-                          hintText: 'Enter Username',
-                          hintStyle: const TextStyle(
-                            color: Colors.black26,
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
+                      ),
+                      validator: (value) =>
+                          value!.isEmpty ? 'Please enter a password' : null,
+                    ),
+                    const SizedBox(height: 15.0),
+
+                    // Remember Me and Forgot Password
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: rememberPassword,
+                              onChanged: (value) {
+                                setState(() => rememberPassword = value!);
+                              },
                             ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: !_ispasswordvisible,
-                        obscuringCharacter: '*',
-                        validator: (value) {
-                          // Check for null or empty input
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a password';
-                          }
-                          return null; // Return null if the password is valid
-                        },
-                        decoration: InputDecoration(
-                          label: const Text('Password'),
-                          hintText: 'Enter Password',
-                          hintStyle: const TextStyle(
-                            color: Colors.black26,
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _ispasswordvisible = !_ispasswordvisible;
-                              });
-                            },
-                            icon: Icon(_ispasswordvisible
-                                ? Icons.visibility
-                                : Icons.visibility_off),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Checkbox(
-                                value: rememberPassword,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    rememberPassword = value!;
-                                  });
-                                },
-                                activeColor: lightColorScheme.primary,
-                              ),
-                              const Text(
-                                'Remember me',
-                                style: TextStyle(
-                                  color: Colors.black45,
-                                ),
-                              ),
-                            ],
-                          ),
-                          GestureDetector(
-                            child: Text(
-                              'Forget password?',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: lightColorScheme.primary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (_formSignInKey.currentState!.validate() &&
-                                rememberPassword) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Processing Data'),
-                                ),
-                              );
-                              _login();
-                            } else if (!rememberPassword) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        'Please agree to the processing of personal data')),
-                              );
-                            }
-                          },
-                          child: (!_isLoading)
-                              ? const Text('Sign in')
-                              : const SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.7,
-                              color: Colors.grey.withOpacity(0.5),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 10,
-                            ),
-                            child: Text(
-                              'Sign up with',
+                            const Text(
+                              'Remember me',
                               style: TextStyle(
                                 color: Colors.black45,
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.7,
-                              color: Colors.grey.withOpacity(0.5),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Text('Forgot password?',
+                              style: TextStyle(
+                                  color: lightColorScheme.primary,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20.0),
+                    // Sign In Button
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate() &&
+                            rememberPassword) {
+                          _login();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                                    'Please agree to the processing of personal data')),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 50),
                       ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          // Logo(Logos.facebook_f),
-                          // Logo(Logos.twitter),
-                          // Logo(Logos.google),
-                          // Logo(Logos.apple),
-                          Icon(
-                            Icons.facebook,
-                            color: Colors.blue,
+                      child: _isLoading
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                          : const Text('Sign In'),
+                    ),
+                    // sign up social media logo
+                    const SocialmediaSigninRow(iconColor: Colors.blue),
+                    // Sign Up Option
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Don't have an account? ",
+                          style: TextStyle(
+                            color: Colors.black45,
                           ),
-                          // Icon(
-                          //   Icons.,
-                          //   color: Colors.blue,
-                          // ),
-                          Icon(
-                            Icons.g_mobiledata_rounded,
-                            color: Colors.blue,
-                          ),
-                          Icon(
-                            Icons.apple,
-                            color: Colors.blue,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
-                      // don't have an account
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Don\'t have an account? ',
-                            style: TextStyle(
-                              color: Colors.black45,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (e) => const SignUpScreen(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              'Sign up',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                                    builder: (_) => const SignUpScreen()));
+                          },
+                          child: Text(
+                            'Sign up',
+                            style: TextStyle(
                                 color: lightColorScheme.primary,
-                              ),
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
