@@ -30,7 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _usernameController.text,
       _password1Controller.text,
       _password2Controller.text,
-      "dummyemail@gmail.com", // passing dummyemai.... :P
+      "", //.... No EMAIL PASSING :P
       _firstnameController.text,
       _lastnameController.text,
     );
