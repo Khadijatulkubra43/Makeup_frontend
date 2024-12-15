@@ -20,18 +20,27 @@ class _CamerPageState extends State<CamerPage> {
   late Future<void> _initializeControllerFuture;
 
   final ImagePicker _imagePicker = ImagePicker(); // ImagePicker instance
+  late List<CameraDescription> _cameras;
+  late CameraDescription _currentCamera;
 
   @override
   void initState() {
     super.initState();
-    // Initialize the CameraController to display the camera preview.
+    _initializeCamera(widget.camera);
+  }
+
+  // Function to initialize the camera
+  Future<void> _initializeCamera(CameraDescription cameraDescription) async {
     _controller = CameraController(
-      widget.camera,
+      cameraDescription,
       ResolutionPreset.medium,
     );
 
-    // Initialize the controller, which returns a Future.
+    // Initialize the controller and store available cameras
     _initializeControllerFuture = _controller.initialize();
+    _cameras = await availableCameras();
+    _currentCamera = cameraDescription;
+    setState(() {});
   }
 
   @override
@@ -39,6 +48,17 @@ class _CamerPageState extends State<CamerPage> {
     // Dispose of the controller to release the camera resources.
     _controller.dispose();
     super.dispose();
+  }
+
+  // Function to switch between front and back cameras
+  Future<void> _switchCamera() async {
+    final newCamera = _currentCamera.lensDirection == CameraLensDirection.back
+        ? _cameras.firstWhere(
+            (camera) => camera.lensDirection == CameraLensDirection.front)
+        : _cameras.firstWhere(
+            (camera) => camera.lensDirection == CameraLensDirection.back);
+
+    await _initializeCamera(newCamera);
   }
 
   // Function to pick an image from the gallery
@@ -77,6 +97,14 @@ class _CamerPageState extends State<CamerPage> {
       appBar: AppBar(
         title: const Text('Camera Preview'),
         automaticallyImplyLeading: false,
+        actions: [
+          // Add switch camera button in the AppBar actions
+          IconButton(
+            icon: const Icon(Icons.switch_camera),
+            onPressed: _switchCamera,
+            tooltip: 'Switch Camera',
+          ),
+        ],
       ),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
