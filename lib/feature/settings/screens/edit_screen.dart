@@ -95,6 +95,29 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
         ),
         leadingWidth: 80,
         actions: [
+          (_isEditEnabled == false)
+              ? const SizedBox(
+                  width: 5,
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: IconButton(
+                      onPressed: () {
+                        getUserDetails();
+                        setState(() {
+                          _isEditEnabled = !_isEditEnabled;
+                        });
+                      },
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        fixedSize: const Size(60, 50),
+                        elevation: 3,
+                      ),
+                      icon: const Icon(Icons.close, color: Colors.white)),
+                ),
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(
