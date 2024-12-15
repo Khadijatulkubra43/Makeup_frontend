@@ -61,6 +61,29 @@ class ApiService {
     }
   }
 
+  static Future<bool> updateUserDetails(String firstName, String lastName,
+      String email, String age, String gender) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token == null) {
+      throw Exception("No authentication token found.");
+    }
+
+    dynamic response = await http.post(
+      Uri.parse('${baseUrl}user/details/'),
+      headers: {'Authorization': 'Token $token'},
+      body: json.encode({
+        "first_name": firstName,
+        "last_name": lastName,
+        "email": email,
+        "age": age,
+        "gender": gender,
+      }),
+    );
+    return response.statusCode == 204;
+  }
+
   static Future<bool> register(String username, String password1,
       String password2, String email, String firstName, String lastName) async {
     final response = await http.post(
