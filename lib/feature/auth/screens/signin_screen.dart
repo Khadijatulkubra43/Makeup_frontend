@@ -60,22 +60,19 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 150),
-          child: SingleChildScrollView(
-            child: Container(
-              height: 1080,
-              margin: const EdgeInsets.all(2.0),
-              padding: const EdgeInsets.all(20.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(40.0),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 8.0,
-                    offset: Offset(0, 4),
-                  ),
-                ],
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.9,
+            margin: const EdgeInsets.all(2.0),
+            padding: const EdgeInsets.all(20.0),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(40.0),
+                topRight: Radius.circular(40.0),
               ),
+            ),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
               child: Form(
                 key: _formKey,
                 child: Column(
