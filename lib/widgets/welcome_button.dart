@@ -61,6 +61,7 @@ class WelcomeButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap, // Trigger the function when tapped
       child: Container(
+        height: 80,
         padding: const EdgeInsets.symmetric(vertical: 15.0),
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
