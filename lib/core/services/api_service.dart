@@ -72,12 +72,15 @@ class ApiService {
 
     dynamic response = await http.post(
       Uri.parse('${baseUrl}user/update/'),
-      headers: {'Authorization': 'Token $token'},
+      headers: {
+        'Authorization': 'Token $token',
+        'Content-Type': 'application/json', // Added Content-Type
+      },
       body: json.encode({
         "first_name": firstName,
         "last_name": lastName,
         "email": email,
-        "age": age,
+        "age": 21,
         "gender": gender,
       }),
     );

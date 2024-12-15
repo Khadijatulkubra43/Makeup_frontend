@@ -44,6 +44,32 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
     }
   }
 
+  void updateDetails() async {
+    bool success = await ApiService.updateUserDetails(
+      _firstnameController.text,
+      _lastnameController.text,
+      _emailController.text,
+      _ageController.text,
+      _genderController.text,
+    );
+    if (!mounted) {
+      return;
+    }
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Update Information"),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Failed to Update"),
+        ),
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -76,13 +102,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                 if (_isEditEnabled == true) {
                   if (_formUpdateKey.currentState?.validate() ?? false) {
                     // Form is valid
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Form submitted successfully!')),
-                    );
-                    // Access form data here
-                    print("Age: ${_ageController.text}");
-                    print("Email: ${_emailController.text}");
+                    updateDetails();
                   } else {
                     // Form is invalid
                     ScaffoldMessenger.of(context).showSnackBar(
