@@ -16,10 +16,16 @@ class DisplayPictureScreen extends StatefulWidget {
 class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey();
 
+  bool _isWaiting = false;
+
   // Function to pick and upload the image file
   Future<Uint8List?> pickAndUploadFile(String imgPath) async {
     File file = File(imgPath);
     Uint8List? imageBytes = await ApiService.uploadFile(file);
+
+    setState(() {
+      _isWaiting = false;
+    });
 
     if (imageBytes != null) {
       return imageBytes;
@@ -45,6 +51,9 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
         padding: const EdgeInsets.all(15),
         child: ElevatedButton(
           onPressed: () async {
+            setState(() {
+              _isWaiting = true;
+            });
             // Upload and get the image bytes from the server
             Uint8List? serverImageBytes =
                 await pickAndUploadFile(widget.imagePath);
@@ -63,7 +72,15 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
               );
             }
           },
-          child: const Text("Apply Make-up"),
+          child: (_isWaiting)
+              ? const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                )
+              : const Text("Apply Make-up"),
         ),
       ),
     );
