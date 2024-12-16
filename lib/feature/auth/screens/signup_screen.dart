@@ -33,19 +33,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() {
       _isLoading = true;
     });
-    bool success = await ApiService.register(
+
+    // Call API service
+    Map<String, dynamic> errors = await ApiService.register(
       _usernameController.text,
       _password1Controller.text,
       _password2Controller.text,
-      "", //.... No EMAIL PASSING :P
+      "", // No EMAIL PASSING
       _firstnameController.text,
       _lastnameController.text,
     );
+
     if (!mounted) {
       return;
     }
-    if (success) {
-      // Navigate to SignInScreen after processing data
+
+    // Check for errors
+    if (errors.isEmpty) {
+      // Navigate to SignInScreen after successful registration
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -57,12 +62,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       );
     } else {
+      // Extract the first error message from the map
+      String firstErrorMessage =
+          errors.entries.first.value[0]; // First error message
+
+      // Display the first error message in a SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Faild to register"),
+        SnackBar(
+          content: Text(firstErrorMessage),
         ),
       );
     }
+
     setState(() {
       _isLoading = false;
     });
