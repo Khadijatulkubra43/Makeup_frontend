@@ -29,9 +29,18 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
         _firstnameController.text = userDetails["first_name"];
         _lastnameController.text = userDetails["last_name"];
         _emailController.text = userDetails["email"];
-        _ageController.text = "${userDetails['age']}";
-        _genderController.text = userDetails['gender'];
       });
+      if (userDetails['age'] == null || userDetails['gender'] == null) {
+        setState(() {
+          _ageController.text = "0";
+          _genderController.text = "M";
+        });
+      } else {
+        setState(() {
+          _ageController.text = "${userDetails['age']}";
+          _genderController.text = userDetails['gender'];
+        });
+      }
     } catch (e) {
       if (!mounted) {
         return;

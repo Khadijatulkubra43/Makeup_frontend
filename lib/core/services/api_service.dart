@@ -81,7 +81,7 @@ class ApiService {
         "first_name": firstName,
         "last_name": lastName,
         "email": email,
-        "age": 21,
+        "age": age,
         "gender": gender,
       }),
     );

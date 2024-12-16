@@ -16,13 +16,35 @@ class GenderSelector extends StatefulWidget {
 }
 
 class _GenderSelectorState extends State<GenderSelector> {
-  String _selectedGender = "M"; // Default gender is "Male"
+  late String _selectedGender; // Tracks the current gender
 
   @override
   void initState() {
     super.initState();
-    // Initialize controller value with the current gender
+    // Set initial gender and attach listener to controller
+    _selectedGender = widget.controller.text.isNotEmpty
+        ? widget.controller.text
+        : "F"; // Default to Female if empty
     widget.controller.text = _selectedGender;
+
+    // Add listener to respond to controller changes
+    widget.controller.addListener(_updateGenderFromController);
+  }
+
+  @override
+  void dispose() {
+    // Clean up the listener
+    widget.controller.removeListener(_updateGenderFromController);
+    super.dispose();
+  }
+
+  // Update the local state if controller value changes
+  void _updateGenderFromController() {
+    if (widget.controller.text != _selectedGender) {
+      setState(() {
+        _selectedGender = widget.controller.text;
+      });
+    }
   }
 
   void _onGenderChanged(String gender) {
