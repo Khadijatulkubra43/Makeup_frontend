@@ -1,13 +1,20 @@
+import 'package:camera/camera.dart';
 import 'package:flutter_application_1/core/services/api_service.dart';
 import 'package:flutter_application_1/feature/settings/screens/edit_screen.dart';
 import 'package:flutter_application_1/feature/settings/widgets/forward_button.dart';
 import 'package:flutter_application_1/feature/settings/widgets/setting_item.dart';
 import 'package:flutter_application_1/feature/settings/widgets/setting_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/feature/welcome/screens/welcome_screen.dart';
 import 'package:ionicons/ionicons.dart';
 
 class AccountScreen extends StatefulWidget {
-  const AccountScreen({super.key});
+  const AccountScreen({
+    super.key,
+    required this.camera,
+  });
+
+  final CameraDescription camera;
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
@@ -154,6 +161,25 @@ class _AccountScreenState extends State<AccountScreen> {
               bgColor: Colors.red.shade100,
               iconColor: Colors.red,
               onTap: () {},
+            ),
+            const SizedBox(height: 20),
+            SettingItem(
+              title: "Logout",
+              icon: Ionicons.nuclear,
+              bgColor: Colors.deepOrange.shade100,
+              iconColor: Colors.deepOrange,
+              onTap: () async {
+                await ApiService.logout();
+                if (!context.mounted) {
+                  return;
+                }
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WelcomeScreen(camera: widget.camera),
+                  ),
+                );
+              },
             ),
           ],
         ),

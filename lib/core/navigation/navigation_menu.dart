@@ -28,7 +28,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
     _screens = [
       const MakeupRecommendationScreen(),
       CamerPage(camera: widget.camera),
-      const AccountScreen(),
+      AccountScreen(camera: widget.camera),
       const UserProfile(),
     ];
   }
