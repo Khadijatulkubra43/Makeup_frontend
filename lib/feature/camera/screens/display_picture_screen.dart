@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/services/api_service.dart';
 import 'package:flutter_application_1/feature/camera/screens/image_screen.dart';
 
@@ -15,17 +16,18 @@ class DisplayPictureScreen extends StatefulWidget {
 class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey();
 
-  Future<String> pickAndUploadFile(String imgPath) async {
+  // Function to pick and upload the image file
+  Future<Uint8List?> pickAndUploadFile(String imgPath) async {
     File file = File(imgPath);
-    // Call the upload function
-    Map<String, dynamic>? response = await ApiService.uploadFile(file);
+    Uint8List? imageBytes = await ApiService.uploadFile(file);
 
-    if (response != null) {
-      return response['url'];
+    if (imageBytes != null) {
+      return imageBytes;
     } else {
-      _scaffoldKey.currentState
-          ?.showSnackBar(const SnackBar(content: Text("File Upload Failed")));
-      return '';
+      _scaffoldKey.currentState?.showSnackBar(
+        const SnackBar(content: Text("File Upload Failed")),
+      );
+      return null;
     }
   }
 
@@ -37,27 +39,32 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
         title: const Text('Display Picture'),
       ),
       body: Center(
-        child: Image.file(File(widget.imagePath)),
+        child: Image.file(File(widget.imagePath)), // Local Image Display
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(15),
         child: ElevatedButton(
-            onPressed: () async {
-              // Await the Future to get the result
-              String imgUrl = await pickAndUploadFile(widget.imagePath);
-              if (imgUrl != '') {
-                if (!context.mounted) return;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ImageScreen(
-                      imageUrl: imgUrl,
-                    ),
+          onPressed: () async {
+            // Upload and get the image bytes from the server
+            Uint8List? serverImageBytes =
+                await pickAndUploadFile(widget.imagePath);
+
+            if (serverImageBytes != null) {
+              if (!context.mounted) return;
+
+              // Navigate to the ImageScreen and pass the image bytes
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ImageScreen(
+                    imageBytes: serverImageBytes,
                   ),
-                );
-              }
-            },
-            child: const Text("Apply Make-up")),
+                ),
+              );
+            }
+          },
+          child: const Text("Apply Make-up"),
+        ),
       ),
     );
   }

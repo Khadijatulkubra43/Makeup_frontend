@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path/path.dart';
+import 'dart:typed_data';
 
-// const String baseUrl = 'https://zohaibanwer.pythonanywhere.com/api/';
-const String baseUrl = 'http://192.168.100.130:8000/api/'; // FOR DEBUGGING
+const String baseUrl = 'https://leakfyp.pythonanywhere.com/api/';
+// const String baseUrl = 'http://192.168.100.130:8000/api/'; // FOR DEBUGGING
 
 class ApiService {
   static Future<bool> login(String username, String password) async {
@@ -144,7 +145,7 @@ class ApiService {
     return response.statusCode == 204;
   }
 
-  static Future<Map<String, dynamic>?> uploadFile(File file) async {
+  static Future<Uint8List?> uploadFile(File file) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
@@ -162,12 +163,11 @@ class ApiService {
         'file', // Key expected by the server
         file.readAsBytes().asStream(),
         file.lengthSync(),
-        filename: basename(file.path), // Extracts the filename
+        filename: basename(file.path),
       );
 
       // Add headers and file
       request.headers['Authorization'] = 'Token $token';
-      request.headers['Content-Type'] = 'multipart/form-data';
       request.files.add(fileStream);
 
       // Send the request
@@ -175,14 +175,17 @@ class ApiService {
 
       // Process the response
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // Read the response body
-        final responseBody = await response.stream.bytesToString();
-        final Map<String, dynamic> data = json.decode(responseBody);
-        return data; // Return the response data
+        // Convert the response stream to Uint8List
+        final Uint8List imageBytes = await response.stream.toBytes();
+
+        // Return the image bytes
+        return imageBytes;
       } else {
-        return null; // Return null on failure
+        print("Failed to upload file: ${response.statusCode}");
+        return null;
       }
     } catch (e) {
+      print("Error uploading file: $e");
       return null;
     }
   }
