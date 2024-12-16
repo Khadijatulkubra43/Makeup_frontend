@@ -87,8 +87,13 @@ class ApiService {
     return response.statusCode == 204;
   }
 
-  static Future<Map<String, dynamic>> register(String username, String password1,
-      String password2, String email, String firstName, String lastName) async {
+  static Future<Map<String, dynamic>> register(
+      String username,
+      String password1,
+      String password2,
+      String email,
+      String firstName,
+      String lastName) async {
     final response = await http.post(
       Uri.parse('${baseUrl}auth/registration/'),
       headers: {
@@ -104,6 +109,9 @@ class ApiService {
         'password2': password2,
       }),
     );
+    if (response.statusCode == 204) {
+      return {};
+    }
     return json.decode(response.body);
   }
 
