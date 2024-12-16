@@ -181,11 +181,11 @@ class ApiService {
         // Return the image bytes
         return imageBytes;
       } else {
-        print("Failed to upload file: ${response.statusCode}");
+        // print("Failed to upload file: ${response.statusCode}");
         return null;
       }
     } catch (e) {
-      print("Error uploading file: $e");
+      // print("Error uploading file: $e");
       return null;
     }
   }
